@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Life — photos and moments by You-Ting Wu." />
+  <title>Life | You-Ting Wu</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>" />
+  <style>
+    .gallery-masonry {
+      columns: 3;
+      column-gap: 1rem;
+    }
+    @media (max-width: 700px) { .gallery-masonry { columns: 2; } }
+    @media (max-width: 480px) { .gallery-masonry { columns: 1; } }
+    .gallery-photo-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .gallery-photo-item img { width: 100%; display: block; transition: transform .4s; }
+    .gallery-photo-item:hover img { transform: scale(1.04); }
+    .gallery-photo-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: #fff;
+      padding: 1.25rem 0.75rem 0.6rem;
+      font-size: 0.82rem;
+      transform: translateY(100%);
+      transition: transform .3s;
+    }
+    .gallery-photo-item:hover .gallery-photo-caption { transform: translateY(0); }
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 6px; }
+    .lightbox-close {
+      position: absolute; top: 1.25rem; right: 1.5rem;
+      background: none; border: none; color: #fff;
+      font-size: 2rem; cursor: pointer; padding: 0.2rem 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <div class="site-brand">
+      <div class="site-name">You-Ting Wu</div>
+      <div class="site-tagline">— someone working on polar climate change</div>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav">
+      <a href="about.html">about</a>
+      <a href="publications.html">publications</a>
+      <a href="gallery.html" class="active">life</a>
+    </nav>
+  </header>
+
+  <!-- ── Main ── -->
+  <main class="main-content-wide">
+
+    <h3 class="section-heading">Life</h3>
+
+    <!-- Coming Soon placeholder — remove once photos are added -->
+    <div class="gallery-placeholder">
+      <h3>📷 Photos Coming Soon</h3>
+      <p>Moments from travels, fieldwork, and everyday life. Check back soon.</p>
+    </div>
+
+    <!--
+      GALLERY GRID — uncomment and populate once you have photos.
+      Remove the gallery-placeholder block above first.
+
+    <div class="gallery-masonry" id="gallery">
+      <div class="gallery-photo-item" onclick="openLightbox(this)">
+        <img src="photos/your-photo.jpg" alt="Caption here" />
+        <div class="gallery-photo-caption">Your caption here</div>
+      </div>
+    </div>
+    -->
+
+  </main><!-- wide -->
+
+  <!-- ── Lightbox ── -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-copy">
+      You-Ting Wu · Department of Applied Mathematics &amp; Applied Physics · Columbia University
+    </div>
+    <div class="footer-links">
+      <a href="mailto:yw4015@columbia.edu">Email</a>
+      <a href="https://scholar.google.com/citations?user=UOTxDkwAAAAJ&hl=en&authuser=1" target="_blank">Scholar</a>
+      <a href="https://www.linkedin.com/in/youtingw/" target="_blank">LinkedIn</a>
+      <a href="publications.html">Publications</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function openLightbox(el) {
+      const img = el.querySelector('img');
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox-img').alt = img.alt;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox(e) {
+      if (!e || e.target !== document.getElementById('lightbox-img')) {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+</body>
+</html>
