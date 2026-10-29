@@ -225,8 +225,10 @@ a:hover { color: var(--blue-dark); text-decoration: underline; }
 }
 .timeline {
   position: relative;
-  max-width: 760px;
-  margin: 0 auto;
+  /* wider than the page column so titles stay on one line */
+  width: min(1180px, calc(100vw - 3rem));
+  left: 50%;
+  transform: translateX(-50%);
   padding-top: 0.5rem;
 }
 .timeline::before {
