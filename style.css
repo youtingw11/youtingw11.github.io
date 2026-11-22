@@ -340,9 +340,9 @@ sub { font-size: .68em; line-height: 0; vertical-align: -.22em; }
 .pub:last-child { padding-bottom: 0; }
 .pub-num {
   font-family: var(--sans);
-  font-size: .72rem;
+  font-size: .95rem;
   font-weight: 700;
-  letter-spacing: .06em;
+  letter-spacing: .02em;
   color: var(--blue);
 }
 .pub-authors {
@@ -416,6 +416,16 @@ sub { font-size: .68em; line-height: 0; vertical-align: -.22em; }
   border: 2px solid var(--blue);
 }
 .moment-photo { display: block; cursor: zoom-in; }
+/* fade up into place on scroll (only when JavaScript runs; off for reduced motion) */
+.js .moment {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.js .moment.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .moment { opacity: 1; transform: none; transition: none; }
+}
 .moment-photo img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 .moment-day {
   font-family: var(--display);

@@ -3,12 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Life — photos and moments by You-Ting Wu." />
+  <meta name="description" content="Photos by You-Ting Wu from Venice, New York, Tokyo and Taiwan, each marked with the day and place it was taken." />
   <title>Life | You-Ting Wu</title>
+  <link rel="canonical" href="https://youtingw11.github.io/gallery.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="You-Ting Wu" />
+  <meta property="og:title" content="Life | You-Ting Wu" />
+  <meta property="og:description" content="Photos by You-Ting Wu, each marked with the day and place it was taken." />
+  <meta property="og:url" content="https://youtingw11.github.io/gallery.html" />
+  <meta property="og:image" content="https://youtingw11.github.io/photos/venice.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" />
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=3" />
+  <!-- lets the CSS hide photos until they fade in; without JavaScript they simply show -->
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>" />
 </head>
 <body>
@@ -143,6 +153,34 @@
       }
     }
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // Fade each photo in as it scrolls into view (like the old about-page timeline)
+    (function () {
+      const items = document.querySelectorAll('.moment');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const io = new IntersectionObserver(entries => {
+        let n = 0;   // photos that appear together come in one after another
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          setTimeout(() => el.classList.add('visible'), n++ * 90);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      // photos already on screen at page load fade in straight away; the rest wait for scrolling
+      let n = 0;
+      items.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight - 40 && r.bottom > 0) {
+          setTimeout(() => el.classList.add('visible'), 60 + n++ * 90);
+        } else {
+          io.observe(el);
+        }
+      });
+    })();
   </script>
 </body>
 </html>
